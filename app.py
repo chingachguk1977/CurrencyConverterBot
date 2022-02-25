@@ -1,8 +1,5 @@
-from cgitb import text
-from locale import currency
 import pytelegrambotapi
 import telebot
-from lxml import html
 import requests
 import json
 
