@@ -1,4 +1,3 @@
-import pytelegrambotapi
 import telebot
 import requests
 import json
