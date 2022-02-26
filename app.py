@@ -1,6 +1,7 @@
 import telebot
-import requests
-import json
+from telebot import types
+from extensions import Converter, APIException
+
 
 #TODO база данный по субтитрам
 
@@ -19,29 +20,30 @@ def handle_start_help(message: telebot.types.Message) -> None:
     """
     The method handles two commands: '/start' and '/help' and gives the invitation.
     """
-    text = "Ask the bot to convert currency."
+    text = "Ask the bot to convert currency: Use '/buttons' command to switch to buttons mode,"
+        #or enter '/values' command to send request in the following format:
+        #<amount> <base currency> to <target currency>.'"""
     bot.send_message(message.chat.id, text, parse_mode='html')
+    
+@bot.message_handler(commands=['values'])
+def handle_values(message: telebot.types.Message) -> None:
+    text = "Values command received."
+    bot.send_message(message.chat.id, text)
+
+@bot.message_handler(commands=['buttons'])
+def handle_buttons(message: telebot.types.Message) -> None:
+    text = "Buttons command received."
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
+    button1 = types.KeyboardButton('button1')
+    button2 = types.KeyboardButton('button2')
+    markup.add(button1, button2)
+    
+    markup.add(types.InlineKeyboardButton('Currency', url='www.yandex.ru'))
+    bot.send_message(message.chat.id, text, reply_markup=markup)
     
 @bot.message_handler(content_types=['text'])
 def handle_convert(message):
-    """
-    Check if we have the CBR data for the current day and download it
-    if needed. Unpack it from JSON format.
-    
-    Дата не передаётся, при необходимости получить исторические данные запрос будет иметь вид:
-    https://www.cbr-xml-daily.ru/archive/2020/06/02/daily_json.js
-    
-    Вместо USD пишем запрашиваемую валюту, кроме RUB, т.к. всё считается относительно рубля,
-    и тут будем просто высчитывать в другую сторону.
-    """
-    
-    cbr_data = requests.get('https://www.cbr-xml-daily.ru/daily_json.js')
-    response = json.loads(cbr_data.content)
-    currency = message.text
-    bot.send_message(message.chat.id, response['Valute'][currency]['Value'])
-    #with open('') as data_file:
-    #    data = json.load(data_file)
-    #print(data['Valute']['USD']['Value'])
+    pass
 
 
 bot.polling(none_stop=True)
