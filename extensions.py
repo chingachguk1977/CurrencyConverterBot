@@ -1,6 +1,4 @@
-from config import get_data
-from codes_human import codes_human
-
+from config import get_data, codes_human
 
 class APIException(Exception):
     pass
@@ -8,7 +6,7 @@ class APIException(Exception):
 class Converter:
     
     @staticmethod
-    def get_price(source_key='RUB', target_key='USD', amount='100') -> float:
+    def get_price(source_key='USD', target_key='RUB', amount='100') -> float:
         """
         Converts one currency to another.
 
@@ -50,4 +48,4 @@ if __name__ == '__main__':
     source='RUB'
     target='HUF'
     amount='1'
-    print(f"{amount} {codes_human[source]} = {p.get_price(source, target, amount)} {codes_human[target]}.")
+    print(f"{amount} {codes_human[source][0]} = {p.get_price(source, target, amount)} {codes_human[target][0]}.")
