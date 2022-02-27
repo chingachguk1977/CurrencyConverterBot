@@ -25,20 +25,19 @@ class Converter:
         try:
             source_value = currencies[source_key]
         except KeyError:
-            raise APIException(f"{source_key} is not found in the currencies list.")
+            raise APIException(f"Source currency {source_key} is not found in the currencies list.")
         try:
             target_value = currencies[target_key]
         except KeyError:
-            raise APIException(f"{target_key} is not found in the currencies list.")
+            raise APIException(f"Target currency {target_key} is not found in the currencies list.")
         if source_key == target_key:
             raise APIException(f"You're trying to convert {source_key} into itself.")
         try:
             amount = float(amount.replace(",", "."))
         except ValueError:
-            raise APIException(f"Something wrong with the sum representation.")
+            raise APIException("Something wrong with the amount.")
         
         result = 0
-        
         result = round((target_value / source_value) * amount, 2)
         return result
         
