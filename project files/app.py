@@ -3,9 +3,8 @@ from config import codes_human
 from telebot import types
 from datetime import date
 from extensions import Converter, APIException
+from tkn import TOKEN
 
-
-TOKEN = "5156928592:AAHs5egCtuMoEZl7xxyg3yRI0iQtSU4XfQo"
 
 bot = telebot.TeleBot(TOKEN)
 
